@@ -32,36 +32,36 @@
 }*/
 
 
-
-
-
-
 pipeline {
-    agent none // Use 'none' since we will specify agent in stages
+    agent any
 
     tools {
         maven 'Maven 3.9.8' // Define Maven tool installation
     }
 
     environment {
-        MAVEN_HOME = tool name: 'Maven 3.9.8', type: 'maven'
-        PATH = "${MAVEN_HOME}/bin:${env.PATH}"
+        MAVEN_HOME = tool name: 'Maven 3.9.8', type: 'maven' // Set MAVEN_HOME environment variable
+        PATH = "${MAVEN_HOME}/bin:${env.PATH}" // Update PATH to include Maven binaries
     }
 
     stages {
         stage('Build') {
             agent {
-                docker {
-                    image 'cimg/openjdk:21.0.2-browsers'
-                    args '-u root' // Optional: Run as root user
-                }
+                label 'cimg/openjdk:21.0.2-browsers' // Specify Docker image label for agent
             }
             steps {
-                sh 'mvn -B -DskipTests clean package'
+                script {
+                    // Run commands inside the Docker container
+                    docker.image('cimg/openjdk:21.0.2-browsers').inside {
+                        // Commands to run inside the Docker container
+                        sh 'mvn -B -DskipTests clean package'
+                    }
+                }
             }
         }
         // Add more stages as needed
     }
 }
+
 
 
