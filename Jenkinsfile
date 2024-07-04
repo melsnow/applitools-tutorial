@@ -31,24 +31,26 @@
     }
 }*/
 
-
 pipeline {
     agent any
+
     tools {
-        maven 'Maven 3.9.8'
+        maven 'Maven 3.9.8' // Define Maven tool installation
     }
+
     environment {
-        MAVEN_HOME = tool name: 'Maven 3.9.8', type: 'maven'
-        PATH = "${MAVEN_HOME}/bin:${env.PATH}"
+        MAVEN_HOME = tool name: 'Maven 3.9.8', type: 'maven' // Set MAVEN_HOME environment variable
+        PATH = "${MAVEN_HOME}/bin:${env.PATH}" // Update PATH to include Maven binaries
     }
+
     stages {
         stage('Build') {
             agent {
-                label 'cimg/openjdk:21.0.2-browsers' // Use the Docker tool configured in Jenkins
+                label 'cimg/openjdk:21.0.2-browsers' // Specify Docker image label for agent
             }
             steps {
                 script {
-                    // Run Docker commands or use Docker images here
+                    // Run commands inside the Docker container
                     docker.image('cimg/openjdk:21.0.2-browsers').inside {
                         // Commands to run inside the Docker container
                         sh 'mvn -B -DskipTests clean package'
@@ -56,6 +58,6 @@ pipeline {
                 }
             }
         }
-        // Additional stages
+        // Add more stages as needed
     }
 }
