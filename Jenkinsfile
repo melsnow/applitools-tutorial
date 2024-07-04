@@ -32,7 +32,7 @@
 }*/
 
 
-/*pipeline {
+pipeline {
     agent any
 
     tools {
@@ -61,11 +61,11 @@
         }
         // Add more stages as needed
     }
-}*/
+}
 
 
 
-pipeline {
+/*pipeline {
     agent {
         // Specify the Docker label you configured in Jenkins
         label 'docker-agent'
@@ -87,4 +87,4 @@ pipeline {
             }
         }
     }
-}
+}*/
