@@ -32,7 +32,7 @@
 }*/
 
 
-pipeline {
+/*pipeline {
     agent any
 
     tools {
@@ -61,7 +61,30 @@ pipeline {
         }
         // Add more stages as needed
     }
+}*/
+
+
+
+pipeline {
+    agent {
+        // Specify the Docker label you configured in Jenkins
+        label 'docker-agent'
+    }
+    
+    tools {
+        maven 'Maven 3.9.8' // Define Maven tool installation
+    }
+
+    environment {
+        MAVEN_HOME = tool name: 'Maven 3.9.8', type: 'maven' // Set MAVEN_HOME environment variable
+        PATH = "${MAVEN_HOME}/bin:${env.PATH}" // Update PATH to include Maven binaries
+    }
+    stages {
+        stage('Build') {
+            steps {
+                // Example build steps
+                sh 'docker build -t myimage .'
+            }
+        }
+    }
 }
-
-
-
