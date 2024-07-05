@@ -47,7 +47,7 @@ pipeline {
     stages {
         stage('Build') {
             agent {
-                label 'cimg/openjdk:21.0.2-browsers' // Specify Docker image label for agent
+                label 'docker' // Specify Docker image label for agent
             }
             steps {
                 script {
